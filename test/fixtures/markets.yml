@@ -1,0 +1,23 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  name: MyString
+  base_currency: MyString
+  quote_currency: MyString
+  minimum_order_amount: MyString
+  taker_fee: 1.5
+  maker_fee: 1.5
+  max_orders_per_minute: 1
+  maker_discount_percentage: 1.5
+  taker_discount_percentage: 1.5
+
+two:
+  name: MyString
+  base_currency: MyString
+  quote_currency: MyString
+  minimum_order_amount: MyString
+  taker_fee: 1.5
+  maker_fee: 1.5
+  max_orders_per_minute: 1
+  maker_discount_percentage: 1.5
+  taker_discount_percentage: 1.5
