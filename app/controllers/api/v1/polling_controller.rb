@@ -5,6 +5,11 @@ module Api
 
       # GET /api/v1/polling/:id
       def check_spread
+        if @alert.nil?
+          render json: { error: 'Alert not found' }, status: :not_found
+          return
+        end
+
         spread_comparison = obtener_spread_comparison(@alert.id)
         if spread_comparison.nil?
           render json: { error: 'No se pudo obtener el spread actual del mercado.' }, status: :unprocessable_entity
@@ -16,7 +21,7 @@ module Api
       private
 
       def set_alert
-        @alert = Alert.find(params[:id])
+        @alert = Alert.find_by(id: params[:id])
       end
 
       def obtener_spread_comparison(alerta_id)
@@ -51,8 +56,9 @@ module Api
       end
 
       def handle_error(exception)
-        # Manejar el error según sea necesario
+        render json: { error: 'Ocurrió un error al procesar la solicitud.' }, status: :internal_server_error
       end
     end
   end
 end
+

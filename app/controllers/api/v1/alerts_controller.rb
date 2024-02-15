@@ -9,10 +9,14 @@ module Api
         @alert.market_id = params[:market_id]
         @alert.spread = params[:spread_value]
 
-        if @alert.save
-          render json: @alert, status: :created
+        if @alert.valid?
+          if @alert.save
+            render json: @alert, status: :created
+          else
+            render json: @alert.errors, status: :unprocessable_entity
+          end
         else
-          handle_error(@alert.errors)
+          render json: { error: 'Missing or invalid attributes' }, status: :unprocessable_entity
         end
       end
 

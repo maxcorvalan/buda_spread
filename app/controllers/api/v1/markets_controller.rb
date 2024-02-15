@@ -16,7 +16,6 @@ module Api
           render json: { market_id: market_id, spread: spread }, status: :ok
         else
           handle_error('Unable to fetch data for the market')
-          return # Agregar un return para salir de la acción después de llamar a render
         end
       end
 
@@ -56,21 +55,20 @@ module Api
       def get_ticker(market_id)
         response = RestClient.get("https://www.buda.com/api/v2/markets/#{market_id}/ticker")
         JSON.parse(response.body)['ticker']
+      rescue RestClient::ExceptionWithResponse => e
+        nil
       end
 
       def get_order_book(market_id)
         response = RestClient.get("https://www.buda.com/api/v2/markets/#{market_id}/order_book")
         JSON.parse(response.body)['order_book']
+      rescue RestClient::ExceptionWithResponse => e
+        nil
       end
 
-      def handle_error(exception)
-        if exception.is_a?(RestClient::NotFound)
-          render json: { error: 'Resource not found on the server' }, status: :not_found
-        else
-          render json: { error: exception.message }, status: :internal_server_error
-        end
+      def handle_error(message)
+        render json: { error: message }, status: :internal_server_error
       end
-      
     end
   end
 end
